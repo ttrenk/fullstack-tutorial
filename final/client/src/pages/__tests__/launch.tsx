@@ -36,6 +36,8 @@ describe('Launch Page', () => {
   // automatically unmount and cleanup DOM after the test is finished.
   afterEach(cleanup);
 
+  
+  it('should render launch page', async() => {
     let mocks = [
       {
         request: { query: GET_LAUNCH, variables: { launchId: '1' } },
@@ -45,9 +47,8 @@ describe('Launch Page', () => {
 
     mount(
       <MockedProvider cache={cache} mocks={mocks} addTypename={false}>
-       <Launch  />
+       <Cart  />
       </MockedProvider>,
     );
-  });
-
-
+  })
+});
