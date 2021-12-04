@@ -1,4 +1,4 @@
-
+import React from 'react';
 import { shallow, mount, render } from '../../enzyme';
 import { MockedProvider } from '@apollo/client/testing';
 import { cleanup } from '../../test-utils';
@@ -14,24 +14,28 @@ describe('Launch Detail View', () => {
        <LaunchDetail />
       </MockedProvider>,
     );
-    it('renders without error enzyme method', () => {
-      expect(wrapper.find('Card')).not.toBeNull();
-      expect(wrapper.html()).toContain('Launch Detail');
-    });
-      let mocks = [
-        {
-          request: { query: LaunchDetail, variables: { launchId: '1' } },
-          result: { data: { launch: LaunchDetail } },
-        },
-      ];
-  
-    render(
-      <LaunchDetail
-        id={'1'}
-        site={'earth'}
-        rocket={{ name: 'that one', type: 'big', __typename: 'Rocket', id: '1' }}
-      />,
+
+    expect(wrapper).not.toBeNull();
+  });
+
+  it('renders without error enzyme method', () => {
+    let mocks = [
+      {
+        request: { query: LaunchDetail, variables: { launchId: '1' } },
+        result: { data: { launch: LaunchDetail } },
+      },
+    ];
+
+    var wrapper = mount(
+        <LaunchDetail
+            id={'1'}
+            site={'earth'}
+            rocket={{ name: 'that one', type: 'big', __typename: 'Rocket', id: '1' }}
+        />,
     );
+
+    expect(wrapper.find('Card')).not.toBeNull();
+    expect(wrapper.html()).toContain('that one');
   });
 });
 
