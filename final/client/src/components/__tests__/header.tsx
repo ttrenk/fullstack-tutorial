@@ -1,3 +1,4 @@
+import React from 'react';
 import { shallow, mount, render } from '../../enzyme';
 import { MockedProvider } from '@apollo/client/testing';
 
@@ -14,18 +15,27 @@ describe('Header', () => {
        <Header />
       </MockedProvider>,
     );
-    it('should have header element', () => {
-      expect(wrapper.find('header')).not.toBeNull();
-      expect(wrapper.html()).toContain('header');
-    });
-    it('should have container element', () => {
-      expect(wrapper.find('container')).not.toBeNull();
-      expect(wrapper.html()).toContain('container');
-    });
-    it('should have image element', () => {
-      expect(wrapper.find('#image')).not.toBeNull();
-      expect(wrapper.html()).toContain('image');
-    });
-    
+
+    expect(wrapper.find('header')).not.toBeNull();
+  });
+
+  it('should have container element', () => {
+    const wrapper = mount(
+        <MockedProvider addTypename={false}>
+          <Header />
+        </MockedProvider>,
+    );
+
+    expect(wrapper.find('container')).not.toBeNull();
+  });
+
+  it('should have image element', () => {
+    const wrapper = mount(
+        <MockedProvider addTypename={false}>
+          <Header />
+        </MockedProvider>,
+    );
+
+    expect(wrapper.find('#image')).not.toBeNull();
   });
 });
