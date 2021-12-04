@@ -72,6 +72,7 @@ const Launches: React.FC<LaunchesProps> = () => {
                 });
                 setIsLoadingMore(false);
               }}
+              id="load-more"
             >
               Load More
             </Button>
