@@ -1,13 +1,16 @@
 import React from 'react';
+import BookTrips, { BOOK_TRIPS } from '../../containers/book-trips';
+import { GET_LAUNCH } from '../../containers/cart-item';
+import { MockedProvider } from '@apollo/client/testing';
+import { act } from 'react-dom/test-utils';
+import { mount } from '../../enzyme';
 
-import {
-  renderApollo,
-  cleanup,
-  fireEvent,
-  waitForElement,
-} from '../../test-utils';
-import BookTrips, { BOOK_TRIPS } from '../book-trips';
-import { GET_LAUNCH } from '../cart-item';
+const updateWrapper = async (wrapper: any, time = 0) => {
+  await act(async () => {
+    await new Promise((res) => setTimeout(res, time));
+    await wrapper.update();
+  });
+};
 
 const mockLaunch = {
   __typename: 'Launch',
@@ -23,16 +26,21 @@ const mockLaunch = {
   },
 };
 
-describe('book trips', () => {
-  // automatically unmount and cleanup DOM after the test is finished.
-  afterEach(cleanup);
-
-  it('renders without error', () => {
-    const { getByTestId } = renderApollo(<BookTrips cartItems={[]} />);
-    expect(getByTestId('book-button')).toBeTruthy();
+describe('Book Trips Item', () => {
+  it('Renders BookTrips', () => {
+    const wrapper = mount(
+        <MockedProvider addTypename={false}>
+          <BookTrips cartItems={[]} />
+        </MockedProvider>
+    );
+    expect(wrapper.find('[data-testid="book-button"]').exists()).toBe(true);
+    expect(
+        wrapper.find('button[data-testid="book-button"]').contains('Book All')
+    ).toBe(true);
+    expect(wrapper.find('button[data-testid="book-button"]').length).toBe(1);
   });
 
-  it('completes mutation and shows message', async () => {
+  it('Renders BookTrips with single item', async () => {
     let mocks = [
       {
         request: { query: BOOK_TRIPS, variables: { launchIds: ['1'] } },
@@ -48,20 +56,19 @@ describe('book trips', () => {
         result: { data: { launch: mockLaunch } },
       },
     ];
-    const { getByTestId } = renderApollo(
-      <BookTrips cartItems={['1']} />,
-      { mocks, addTypename: false },
+
+    const wrapper = mount(
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <BookTrips cartItems={['1']} />
+        </MockedProvider>
     );
 
-    fireEvent.click(getByTestId('book-button'));
+    expect(wrapper.find('button[data-testid="book-button"]')).not.toBeNull();
+    wrapper.find('button[data-testid="book-button"]').simulate('click');
 
-    // Let's wait until our mocked mutation resolves and
-    // the component re-renders.
-    // getByTestId throws an error if it cannot find an element with the given ID
-    // and waitForElement will wait until the callback doesn't throw an error
-    await waitForElement(() => getByTestId('message'));
+    await updateWrapper(wrapper);
+
+    expect(wrapper.find('[data-testid="message"]')).not.toBeNull();
+    expect(wrapper.find('button[data-testid="book-button"]')).not.toBeNull();
   });
-
-  // >>>> TODO
-  it('correctly updates cache', () => {});
 });

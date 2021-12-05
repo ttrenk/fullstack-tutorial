@@ -10,23 +10,23 @@ import { colors, unit } from '../styles';
 
 export default function Footer() {
   return (
-    <Container>
-      <InnerContainer>
-        <MenuItem id='home' to="/">
-          <HomeIcon />
-          Home
-        </MenuItem>
-        <MenuItem id='cart' to="/cart">
-          <CartIcon />
-          Cart
-        </MenuItem>
-        <MenuItem id='profile' to="/profile">
-          <ProfileIcon />
-          Profile
-        </MenuItem>
-        <LogoutButton />
-      </InnerContainer>
-    </Container>
+      <Container>
+        <InnerContainer id='footer-menu'>
+          <MenuItem id='home' to='/'>
+            <HomeIcon />
+            Home
+          </MenuItem>
+          <MenuItem id='cart' to='/cart'>
+            <CartIcon />
+            Cart
+          </MenuItem>
+          <MenuItem id='profile' to='/profile'>
+            <ProfileIcon />
+            Profile
+          </MenuItem>
+          <LogoutButton />
+        </InnerContainer>
+      </Container>
   );
 }
 
