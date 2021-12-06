@@ -3,7 +3,6 @@ const chrome = require('selenium-webdriver/chrome');
 const assert = require('assert');
 const testEmail = 'ProfileTest@Gmail.Test';
 const chromeOptions = new chrome.Options();
-const chromedriver =  require('chromedriver');
 chromeOptions.excludeSwitches('enable-logging');
 let driver = new Builder()
     .forBrowser('chrome')
