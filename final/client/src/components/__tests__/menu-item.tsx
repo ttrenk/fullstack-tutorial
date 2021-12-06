@@ -26,7 +26,6 @@ describe('Menu Item', () => {
 
     expect(wrapper.exists()).toBeDefined();
     expect(wrapper.find('#footer-menu').exists()).toBeDefined();
-    console.log(wrapper.html());
     expect(wrapper.find('#footer-menu').children().length).toBe(5);
     expect(wrapper.find('#footer-menu').find('a').length).toBe(3);
     expect(wrapper.find('#footer-menu').find('a[href="/"]').length).toBe(1);
